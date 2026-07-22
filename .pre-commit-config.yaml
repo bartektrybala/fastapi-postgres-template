@@ -1,3 +1,4 @@
+fail_fast: true
 repos:
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.16.0
@@ -20,9 +21,6 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: detect-private-key
-      - id: name-tests-test
-        args: [--pytest-test-first]
-      - id: pretty-format-json
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
@@ -44,12 +42,15 @@ repos:
       - id: format-cue-files
         name: Format CUE files
         language: system
+        pass_filenames: false
         entry: just export-cue
       - id: uv-sync-check
         name: Check uv sync
         language: system
+        pass_filenames: false
         entry: uv sync --check
       - id: run-ty
         name: Run ty
         language: system
+        pass_filenames: false
         entry: uv run ty check

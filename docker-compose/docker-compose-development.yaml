@@ -34,5 +34,3 @@ volumes:
 networks:
   db_network:
     driver: bridge
-  browser_network:
-    driver: bridge

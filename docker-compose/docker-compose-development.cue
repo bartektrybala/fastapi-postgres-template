@@ -21,5 +21,4 @@ volumes: {
 
 networks: {
 	"\(consts.POSTGRES_DB_NETWORK_NAME)": compose.definitions.networks.db_network
-	"\(consts.BROWSER_NETWORK_NAME)":     compose.definitions.networks.browser_network
 }

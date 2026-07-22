@@ -46,14 +46,11 @@ definitions: {
 				dockerfile: "Dockerfile"
 			}
 			env_file: string
-			networks: [consts.POSTGRES_DB_NETWORK_NAME, consts.BACKEND_NETWORK_NAME, consts.BROWSER_NETWORK_NAME]
+			networks: [consts.POSTGRES_DB_NETWORK_NAME, consts.BACKEND_NETWORK_NAME]
 			healthcheck: #_python_http_healthcheck & {
 				_url: "\"http://\(consts.BACKEND_SERVICE_NAME):\(consts.BACKEND_SERVICE_PORT)/health\""
 			}
 			depends_on: {
-				"\(consts.BROWSER_SERVICE_NAME)": {
-					condition: "service_healthy"
-				}
 				"\(consts.MIGRATIONS_SERVICE_NAME)": {
 					condition: "service_completed_successfully"
 				}

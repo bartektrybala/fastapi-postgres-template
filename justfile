@@ -33,6 +33,7 @@ export-cue:
     cue export -f --out yaml --outfile docker-compose/docker-compose-production.yaml docker-compose/docker-compose-production.cue
 
 # ## DEV SCRIPTS ###
+[working-directory('src/')]
 test:
     uv run pytest
 

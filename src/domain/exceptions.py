@@ -1,7 +1,7 @@
 import functools
 import re
 from collections.abc import Callable
-from typing import ParamSpec, TypeVar
+from typing import Generic, ParamSpec, TypeVar
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -23,3 +23,16 @@ def map_specific_exception_regex(
         return inner
 
     return wrapper
+
+
+Model = TypeVar("Model", bound=type[object])
+
+
+class MissingDbObject(Generic[Model], Exception):
+    def __init__(self, model: Model):
+        self.model = model
+        super().__init__(f"Missing object of type {model.__name__}")
+
+
+class UserAlreadyExists(Exception):
+    pass

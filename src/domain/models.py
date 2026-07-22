@@ -12,4 +12,5 @@ class BaseModel(abc.ABC): ...
 @attr.s
 class User(BaseModel):
     id: aliases.UserPk = attr.ib()
-    username: str = attr.ib()
+    email: str = attr.ib()
+    password_hash: str = attr.ib()

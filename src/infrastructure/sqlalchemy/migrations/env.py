@@ -21,17 +21,6 @@ if config.config_file_name is not None:
 target_metadata = custom_mapper_registry.metadata
 
 
-def include_name(
-    name: str | None,
-    type_: str | None,
-    parent_names: list[str] | None,  # noqa: ARG001
-) -> bool:
-    """Ignore existing tables (necessary to ignore saleor tables)"""
-    if type_ == "table":
-        return name in target_metadata.tables
-    return True
-
-
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
@@ -49,7 +38,6 @@ def run_migrations_offline() -> None:
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        include_name=include_name,
         dialect_opts={"paramstyle": "named"},
     )
 
@@ -75,7 +63,6 @@ def run_migrations_online() -> None:
         alembic.context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            include_name=include_name,
         )
 
         with alembic.context.begin_transaction():

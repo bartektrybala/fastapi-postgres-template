@@ -3,29 +3,24 @@ from sqlalchemy import column, select
 
 from src.containers import Container
 from src.domain import models
-from src.domain.consts import USER_SZYMEK_ID
-from src.domain.interface import (
-    CreateUserRepoDto,
+from src.domain.exceptions import (
     MissingDbObject,
-    UserAlreadyExistsError,
+    UserAlreadyExists,
 )
-from tests.factories import UserFactory
+from src.tests.factories import UserFactory
 
 
+@pytest.mark.usefixtures("db")
 class TestUserRepository:
-    @pytest.mark.usefixtures("db")
     def test_create_user(self, container: Container) -> None:
         # given
         repository = container.user_repository()
         session = container.session()
 
-        dto = CreateUserRepoDto(
-            username="szymiitrybala",
-            vinted_url=f"https://www.vinted.pl/member/{USER_SZYMEK_ID}",
-        )
-
         # when
-        created_user_id = repository.create_user(dto=dto)
+        created_user_id = repository.create_user(
+            email="test@email.com", password="SecurePassword123!"
+        )
 
         # then
         user = session.scalar(
@@ -33,28 +28,19 @@ class TestUserRepository:
         )
         assert user is not None
 
-    @pytest.mark.usefixtures("db")
     def test_create_user_already_exists(self, container: Container) -> None:
         # given
         repository = container.user_repository()
 
-        data = {
-            "username": "szymiitrybala",
-            "vinted_url": f"https://www.vinted.pl/member/{USER_SZYMEK_ID}",
-        }
-        repository.create_user(dto=CreateUserRepoDto(**data))
+        email = "test@email.com"
+        repository.create_user(email=email, password="SecurePassword123!")
 
         # when & then
         with pytest.raises(
-            UserAlreadyExistsError, match="User with this Vinted URL already exists."
+            UserAlreadyExists, match="User with this email already exists."
         ):
-            repository.create_user(
-                dto=CreateUserRepoDto(
-                    username="another_username",
-                )
-            )
+            repository.create_user(email=email, password="SecurePassword123!")
 
-    @pytest.mark.usefixtures("db")
     def test_get_users(self, container: Container) -> None:
         # given
         repository = container.user_repository()
@@ -67,7 +53,6 @@ class TestUserRepository:
         assert len(users) == 3
         assert all(isinstance(u, models.User) for u in users)
 
-    @pytest.mark.usefixtures("db")
     def test_user_by_id(self, container: Container) -> None:
         # given
         repository = container.user_repository()
@@ -79,7 +64,6 @@ class TestUserRepository:
         # then
         assert user.id == user_.id
 
-    @pytest.mark.usefixtures("db")
     def test_get_by_id_missing_user(self, container: Container) -> None:
         # given
         user = UserFactory.build()

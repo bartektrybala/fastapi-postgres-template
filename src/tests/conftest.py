@@ -8,16 +8,17 @@ from sqlalchemy_utils import create_database, database_exists
 
 from src.containers import Container
 from src.containers import container as container_obj
+from src.domain import models
 from src.infrastructure.sqlalchemy.connection import custom_mapper_registry
-from tests.factories import BaseSQLAlchemyFactory
+from src.tests.factories import BaseSQLAlchemyFactory
 
 
-def _set_session_on_factory_child_classes(  # type: ignore[explicit-any]
+def _set_session_on_factory_child_classes(
     session: Session,
-    factory: type[BaseSQLAlchemyFactory[t.Any]],
+    factory: type[BaseSQLAlchemyFactory[models.BaseModel]],
 ) -> None:
     for child in factory.__subclasses__():
-        child._meta.sqlalchemy_session = session  # type: ignore[attr-defined] # noqa: SLF001
+        factory._meta.sqlalchemy_session = session
         _set_session_on_factory_child_classes(session, child)
 
 

@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from src.domain.interface import (
     BaseUserRepository,
 )
+from src.infrastructure.password_service import PasswordService
 from src.infrastructure.sqlalchemy.connection import create_sa_engine, get_db_session
 from src.infrastructure.sqlalchemy.tables import map_tables
 from src.infrastructure.user_repository import UserRepository
@@ -19,9 +20,9 @@ class Container(c.DeclarativeContainer):
     map_tables = p.Factory(map_tables)
     session: p.Provider[Session] = p.Resource(get_db_session, engine=database_engine)
 
+    password_service = p.Factory(PasswordService)
     user_repository: p.Provider[BaseUserRepository] = p.ThreadSafeSingleton(
-        UserRepository,
-        session=session,
+        UserRepository, session=session, password_service=password_service
     )
 
 

@@ -1,31 +1,11 @@
 import abc
-from dataclasses import dataclass
-from typing import Generic, TypeVar
 
 from src.domain import aliases, models
 
 
-@dataclass
-class CreateUserRepoDto:
-    username: str
-
-
-class UserAlreadyExistsError(Exception):
-    pass
-
-
-Model = TypeVar("Model", bound=type[object])
-
-
-class MissingDbObject(Generic[Model], Exception):
-    def __init__(self, model: Model):
-        self.model = model
-        super().__init__(f"Missing object of type {model.__name__}")
-
-
 class BaseUserRepository(abc.ABC):
     @abc.abstractmethod
-    def create_user(self, dto: CreateUserRepoDto) -> aliases.UserPk:
+    def create_user(self, email: str, password: str) -> aliases.UserPk:
         pass
 
     @abc.abstractmethod
