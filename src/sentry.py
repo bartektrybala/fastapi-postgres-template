@@ -1,6 +1,3 @@
-import typing as t
-from functools import wraps
-
 import sentry_sdk
 
 from src.settings import settings

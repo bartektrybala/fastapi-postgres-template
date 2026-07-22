@@ -5,9 +5,8 @@ import attr
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 
-from src.domain import aliases
+from src.domain import aliases, models
 from src.domain.errors import MissingDbObject
-from src.domain import models
 from src.domain.interface import BaseUserRepository, CreateUserRepoDto
 from src.tests.factories import UserFactory
 

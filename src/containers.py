@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 from src.domain.interface import (
     BaseUserRepository,
 )
-from src.infrastructure.user_repository import UserRepository
 from src.infrastructure.sqlalchemy.connection import create_sa_engine, get_db_session
 from src.infrastructure.sqlalchemy.tables import map_tables
+from src.infrastructure.user_repository import UserRepository
 
 
 class Container(c.DeclarativeContainer):

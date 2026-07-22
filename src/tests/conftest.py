@@ -1,5 +1,4 @@
 import typing as t
-from unittest import mock
 
 import pytest
 from dependency_injector import providers as p
@@ -57,8 +56,6 @@ def db(
         if connection.in_transaction():
             transaction.rollback()
         connection.close()
-
-
 
 
 @pytest.fixture

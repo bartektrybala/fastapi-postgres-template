@@ -1,7 +1,7 @@
 from typing import cast
 
 import attr
-from sqlalchemy import column, delete, insert, select
+from sqlalchemy import column, insert, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 

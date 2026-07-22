@@ -5,12 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers.health import router as health_router
 from src.api.routers.profile import router as profile_router
-from src.api.routers.sync import router as sync_router
 from src.api.routers.register import router as user_router
+from src.api.routers.sync import router as sync_router
 from src.lifespan import lifespan
 from src.logs import EndpointFilter
 from src.sentry import init_sentry
-from src.settings import BASE_DIR, settings
+from src.settings import settings
 
 app = FastAPI(lifespan=lifespan)
 

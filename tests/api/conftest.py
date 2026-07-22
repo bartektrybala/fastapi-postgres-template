@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-
 from src.api.consts import API_KEY_NAME
+
 from src.main import app
 
 

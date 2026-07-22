@@ -1,5 +1,4 @@
 import abc
-from decimal import Decimal
 
 import attr
 

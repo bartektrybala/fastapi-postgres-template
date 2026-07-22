@@ -1,11 +1,11 @@
 import pytest
 from fastapi.testclient import TestClient
+from tests.infrastructure.db.fake_repository import FakeUserRepository
 
 from src.containers import Container, container
-from tests import matchers
+from src.domain import models
 from src.tests.factories import UserFactory
-from tests.infrastructure.db.fake_repository import FakeUserRepository
-from src.domain import aliases, models
+from tests import matchers
 
 
 class TestRegisterView:
