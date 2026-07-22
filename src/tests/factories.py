@@ -17,7 +17,9 @@ class TypedSQLAlchemyOptions(SQLAlchemyOptions):
     sqlalchemy_session: Session | None
 
 
-class BaseSQLAlchemyFactory(factory.alchemy.SQLAlchemyModelFactory[T]):
+class BaseSQLAlchemyFactory(
+    factory.alchemy.SQLAlchemyModelFactory, factory.base.BaseFactory[T]
+):
     _meta: TypedSQLAlchemyOptions
 
     class Meta:

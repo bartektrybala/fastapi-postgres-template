@@ -11,9 +11,6 @@ from src.domain.exceptions import (
     UserAlreadyExists,
     map_specific_exception_regex,
 )
-from src.domain.interface import (
-    BaseUserRepository,
-)
 from src.infrastructure.password_service import PasswordService
 from src.infrastructure.sqlalchemy.consts import (
     PSYCOPG_UNIQUE_CONSTRAINT_VIOLATED_ERROR_MESSAGE_REGEX,
@@ -21,7 +18,7 @@ from src.infrastructure.sqlalchemy.consts import (
 
 
 @attr.s
-class UserRepository(BaseUserRepository):
+class UserRepository:
     session: Session = attr.ib()
     password_service: PasswordService = attr.ib()
 
@@ -43,6 +40,7 @@ class UserRepository(BaseUserRepository):
             password_hash=password_hash,
         )
         self.session.add(user)
+        self.session.flush()
         return user_id
 
     def get_users(self) -> list[models.User]:

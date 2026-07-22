@@ -39,6 +39,4 @@ class TestRegisterView:
 
         # then
         assert response.status_code == 400
-        assert response.json() == {
-            "detail": "User with this Vinted URL already exists."
-        }
+        assert response.json() == {"detail": "User with this email already exists"}

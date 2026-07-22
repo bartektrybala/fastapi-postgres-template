@@ -1,5 +1,6 @@
 import typing as t
 
+from fastapi.testclient import TestClient
 import pytest
 from dependency_injector import providers as p
 from sqlalchemy import Engine
@@ -10,7 +11,13 @@ from src.containers import Container
 from src.containers import container as container_obj
 from src.domain import models
 from src.infrastructure.sqlalchemy.connection import custom_mapper_registry
+from src.main import app
 from src.tests.factories import BaseSQLAlchemyFactory
+
+
+@pytest.fixture
+def api_client() -> TestClient:
+    return TestClient(app=app)
 
 
 def _set_session_on_factory_child_classes(
@@ -18,7 +25,7 @@ def _set_session_on_factory_child_classes(
     factory: type[BaseSQLAlchemyFactory[models.BaseModel]],
 ) -> None:
     for child in factory.__subclasses__():
-        factory._meta.sqlalchemy_session = session
+        child._meta.sqlalchemy_session = session
         _set_session_on_factory_child_classes(session, child)
 
 
