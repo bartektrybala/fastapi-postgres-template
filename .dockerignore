@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Docker
+Dockerfile
+docker-compose*.yaml
+docker-compose*.yml
+docker-compose*.cue
+.dockerignore
+
+# Configuration files (build-time only)
+mypy.ini
+pytest.ini
+ruff.toml
+.editorconfig
+.pre-commit-config.yaml
+
+# Cue files
+cue/
+
+# Alembic (if using version control for migrations in production)
+# alembic/versions/
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite3
+
+# Justfile
+justfile

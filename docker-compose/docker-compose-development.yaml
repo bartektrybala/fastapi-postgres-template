@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 3s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+    env_file: ../src/env/.env.development
+    networks:
+      - db_network
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+  shs-migrations:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c 'cd src/infrastructure/sqlalchemy && uv run alembic upgrade head'
+    env_file: ../src/env/.env.development
+    networks:
+      - db_network
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+volumes:
+  dbdata:
+    driver: local
+networks:
+  db_network:
+    driver: bridge
+  browser_network:
+    driver: bridge
