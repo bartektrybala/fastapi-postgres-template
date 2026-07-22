@@ -1,8 +1,8 @@
 import typing as t
 
-from fastapi.testclient import TestClient
 import pytest
 from dependency_injector import providers as p
+from fastapi.testclient import TestClient
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists

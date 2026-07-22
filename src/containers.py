@@ -6,6 +6,7 @@ from dependency_injector import providers as p
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from src.domain.auth.jwt_service import JWTTokenService
 from src.infrastructure.password_service import PasswordService
 from src.infrastructure.sqlalchemy.connection import create_sa_engine, get_db_session
 from src.infrastructure.sqlalchemy.tables import map_tables
@@ -18,6 +19,7 @@ class Container(c.DeclarativeContainer):
     session: p.Provider[Session] = p.Resource(get_db_session, engine=database_engine)
 
     password_service = p.Factory(PasswordService)
+    jwt_service = p.Factory(JWTTokenService)
     user_repository = p.ThreadSafeSingleton(
         UserRepository, session=session, password_service=password_service
     )

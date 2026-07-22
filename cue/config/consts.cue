@@ -38,3 +38,5 @@ SENTRY_DSN: "https://your-sentry-dns.ingest.de.sentry.io/your-sentry-dns"
 CERTBOT_SERVICE_NAME: "certbot"
 CERTBOT_VOLUME_NAME:  "certbot_volume"
 CERTBOT_VOLUME_MOUNT: "\(CERTBOT_VOLUME_NAME):/etc/letsencrypt"
+
+JWT_SECRET_KEY: "tmp-super-super-secret-value-secret-value"
