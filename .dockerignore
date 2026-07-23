@@ -24,11 +24,17 @@ env/
 .DS_Store
 
 # Testing
-.pytest_cache/
+**/.pytest_cache/
+**/pytest.ini
 .coverage
 htmlcov/
 .tox/
+**/tests/
+**/tests_e2e/
 *.cover
+**/conftest.py
+**/test_*.py
+**/*_test.py
 
 # Environment files
 .env
@@ -67,7 +73,7 @@ ruff.toml
 cue/
 
 # Alembic (if using version control for migrations in production)
-# alembic/versions/
+alembic/versions/
 
 # Logs
 *.log
@@ -76,5 +82,4 @@ cue/
 *.db
 *.sqlite3
 
-# Justfile
 justfile

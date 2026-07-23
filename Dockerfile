@@ -19,6 +19,5 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
 
 COPY src /app/src
-COPY scripts /app/scripts
 
 CMD ["uv", "run", "uvicorn", "src.main:app", "--port", "8000", "--host", "0.0.0.0"]

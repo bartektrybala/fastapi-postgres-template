@@ -1,6 +1,7 @@
 package consts
 
 TEST:        "test"
+E2E:         "e2e"
 DEVELOPMENT: "development"
 DOCKER:      "docker"
 PRODUCTION:  "production"
@@ -9,10 +10,12 @@ ENV_DIR:              "../src/env/"
 ENV_FILE_TEST:        "\(ENV_DIR).env.\(TEST)"
 ENV_FILE_DEVELOPMENT: "\(ENV_DIR).env.\(DEVELOPMENT)"
 ENV_FILE_DOCKER:      "\(ENV_DIR).env.\(DOCKER)"
+ENV_FILE_E2E:         "\(ENV_DIR).env.\(E2E)"
 ENV_FILE_PRODUCTION:  "\(ENV_DIR).env.\(PRODUCTION)"
 
 POSTGRES_DB_SERVICE_NAME: "db"
 POSTGRES_LOCAL_DB:        "shs-local"
+POSTGRES_E2E_DB:          "e2e_testing"
 POSTGRES_TEST_DB:         "testing"
 POSTGRES_USER:            "postgres"
 POSTGRES_PASSWORD:        "password"

@@ -48,7 +48,7 @@ definitions: {
 			env_file: string
 			networks: [consts.POSTGRES_DB_NETWORK_NAME, consts.BACKEND_NETWORK_NAME]
 			healthcheck: #_python_http_healthcheck & {
-				_url: "\"http://\(consts.BACKEND_SERVICE_NAME):\(consts.BACKEND_SERVICE_PORT)/health\""
+				_url: "\"http://\(consts.BACKEND_SERVICE_NAME):\(consts.BACKEND_SERVICE_PORT)/api/health\""
 			}
 			depends_on: {
 				"\(consts.MIGRATIONS_SERVICE_NAME)": {

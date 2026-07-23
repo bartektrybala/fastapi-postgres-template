@@ -1,10 +1,11 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers.health import router as health_router
 from src.api.routers.login import router as login_router
+from src.api.routers.me import router as me_router
 from src.api.routers.register import router as register_router
 from src.lifespan import lifespan
 from src.logs import EndpointFilter
@@ -21,9 +22,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router=health_router)
-app.include_router(router=register_router)
-app.include_router(router=login_router)
+
+api_router = APIRouter(prefix="/api")
+
+api_router.include_router(router=health_router)
+api_router.include_router(router=login_router)
+api_router.include_router(router=me_router)
+api_router.include_router(router=register_router)
+
+app.include_router(router=api_router)
 
 init_sentry()
 

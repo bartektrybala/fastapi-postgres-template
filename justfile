@@ -23,9 +23,11 @@ export-cue:
     cue export -f --out text --outfile src/env/.env.test src/env/env-test.cue
     cue export -f --out text --outfile src/env/.env.docker src/env/env-docker.cue
     cue export -f --out text --outfile src/env/.env.development src/env/env-development.cue
+    cue export -f --out text --outfile src/env/.env.e2e src/env/env-e2e.cue
     cue export -f --out text --outfile api_gateway/nginx.conf api_gateway/nginx.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-docker.yaml docker-compose/docker-compose-docker.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-development.yaml docker-compose/docker-compose-development.cue
+    cue export -f --out yaml --outfile docker-compose/docker-compose-e2e.yaml docker-compose/docker-compose-e2e.cue
 
     # PRODUCTION
     cue export -f --out text --outfile src/env/.env.production src/env/env-production.cue
@@ -36,6 +38,9 @@ export-cue:
 [working-directory('src/')]
 test:
     uv run pytest
+
+integration_test: (down "e2e") (up "e2e")
+    uv run pytest -m integration
 
 clear_cache:
     find . -type d  -name "__pycache__" -exec rm -rf {} +;

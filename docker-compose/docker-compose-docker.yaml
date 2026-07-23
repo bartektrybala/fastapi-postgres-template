@@ -35,7 +35,7 @@ services:
       - db_network
       - backend_network
     healthcheck:
-      test: python -c 'import urllib.request; urllib.request.urlopen("http://shs-backend:8000/health")'
+      test: python -c 'import urllib.request; urllib.request.urlopen("http://shs-backend:8000/api/health")'
       interval: 3s
       timeout: 5s
       retries: 10
