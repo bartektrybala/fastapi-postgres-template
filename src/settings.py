@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     jwt_hashing_alg: str = "HS256"
 
 
-settings = Settings()
+settings = Settings()  # type: ignore[call-arg]
 
 
 __all__ = ["BASE_DIR", "ENV", "ENV_FILE_PATH", "Settings", "settings"]

@@ -27,10 +27,14 @@ class BaseSQLAlchemyFactory(
         sqlalchemy_session_persistence = factory.alchemy.SESSION_PERSISTENCE_FLUSH
 
 
+PLAIN_PASSWORD = "password"
+HASH_OF_PLAIN_PASSWORD = "$2b$12$vKSqBNic7dfU7zCh1MhEDOoTKCfh3yP6impFzEOSQAq8BD8Q4VExu"
+
+
 class UserFactory(BaseSQLAlchemyFactory[models.User]):
     class Meta:
         model = models.User
 
     id = factory.LazyFunction(uuid.uuid4)
     email = factory.LazyFunction(fake.email)
-    password_hash = factory.LazyFunction(fake.password)
+    password_hash = HASH_OF_PLAIN_PASSWORD

@@ -1,9 +1,9 @@
 from datetime import UTC, datetime, timedelta
 
 import jwt
-from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
 
+from src.domain.auth.exceptions import InvalidAuthToken
 from src.domain.auth.interface import AccesTokenData, TokenPayload
 from src.domain.auth.interface import Token as JWTToken
 from src.settings import settings
@@ -36,11 +36,11 @@ class JWTTokenService:
             jwt.DecodeError,
             jwt.ExpiredSignatureError,
         ):
-            raise InvalidTokenError
+            raise InvalidAuthToken
 
         try:
             payload = TokenPayload.model_validate(payload)
         except ValidationError:
-            raise InvalidTokenError
+            raise InvalidAuthToken
 
         return AccesTokenData(email=payload.email)

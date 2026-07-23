@@ -53,3 +53,9 @@ class UserRepository:
         if user is None:
             raise MissingDbObject(model=models.User)
         return user
+
+    def get_by_email(self, email: str) -> models.User:
+        user = self.session.scalar(select(models.User).where(column("email") == email))
+        if user is None:
+            raise MissingDbObject(model=models.User)
+        return user

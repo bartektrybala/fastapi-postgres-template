@@ -72,3 +72,23 @@ class TestUserRepository:
         # when & then
         with pytest.raises(MissingDbObject, match="User"):
             repository.get_by_id(id=user.id)
+
+    def test_user_by_email(self, container: Container) -> None:
+        # given
+        repository = container.user_repository()
+        user_ = UserFactory.create()
+
+        # when
+        user = repository.get_by_email(email=user_.email)
+
+        # then
+        assert user.id == user_.id
+
+    def test_get_by_email_missing_user(self, container: Container) -> None:
+        # given
+        user = UserFactory.build()
+        repository = container.user_repository()
+
+        # when & then
+        with pytest.raises(MissingDbObject, match="User"):
+            repository.get_by_email(email=user.email)

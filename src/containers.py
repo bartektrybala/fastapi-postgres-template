@@ -7,6 +7,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from src.domain.auth.jwt_service import JWTTokenService
+from src.domain.auth.request_user_service import RequestUserService
 from src.infrastructure.password_service import PasswordService
 from src.infrastructure.sqlalchemy.connection import create_sa_engine, get_db_session
 from src.infrastructure.sqlalchemy.tables import map_tables
@@ -22,6 +23,12 @@ class Container(c.DeclarativeContainer):
     jwt_service = p.Factory(JWTTokenService)
     user_repository = p.ThreadSafeSingleton(
         UserRepository, session=session, password_service=password_service
+    )
+
+    request_user_service = p.Singleton(
+        RequestUserService,
+        jwt_token_service=jwt_service,
+        user_repository=user_repository,
     )
 
 

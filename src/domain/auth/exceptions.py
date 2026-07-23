@@ -1,2 +1,6 @@
-class InvalidTokenError(Exception):
+class InvalidAuthToken(Exception):
+    pass
+
+
+class CurrentUserInvalidCredentials(Exception):
     pass
