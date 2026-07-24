@@ -12,13 +12,14 @@ It enforces good practices like Dependency Injection, clean architecture, and mo
 
 ## ✨ Features
 
-- **Modern Tooling:** Uses `uv` for blazing-fast dependency management and `just` as a modern command runner.
+- **Modern Tooling & Quality:** Uses `uv` for blazing-fast dependency management, `just` as a modern command runner, and `pre-commit` hooks to keep your code clean automatically.
+- **Type Checking:** Uses `ty` instead of `mypy` for fast, seamless static type checking.
 - **Config Generation with CUE:** Automatically generate `.env` files, NGINX configs, and `docker-compose` YAMLs for different environments (dev, e2e, prod) using [CUE](https://cuelang.org/).
-- **Clean Architecture:** Built-in Dependency Injection (`containers.py`). SQLAlchemy tables in [`src/infrastructure/sqlalchemy/tables.py`](src/infrastructure/sqlalchemy/tables.py) mapped cleanly to domain models in [`src/domain/models.py`](src/domain/models.py).
-- **Ready-to-use Auth:** Simple, pre-built [`login`](src/api/routers/login.py) and [`register`](src/api/routers/register.py) endpoints out of the box, powered by `JWTTokenService` ([`src/domain/auth/jwt_service.py`](src/domain/auth/jwt_service.py)).
+- **Clean Architecture:** Built-in Dependency Injection [`containers.py`](src/containers.py). SQLAlchemy tables in [`tables.py`](src/infrastructure/sqlalchemy/tables.py) mapped cleanly to domain models in [`models.py`](src/domain/models.py).
+- **Ready-to-use Auth:** Simple, pre-built [`login.py`](src/api/routers/login.py) and [`register.py`](src/api/routers/register.py) endpoints out of the box, powered by [`JWTTokenService`](src/domain/auth/jwt_service.py).
 - **Database & Migrations:** PostgreSQL setup with Alembic migrations running seamlessly in containers.
 - **Dockerized:** Extremely small Dockerfile optimized for fast builds and deployments.
-- **Testing:** E2E testing setup (`test_endpoints`) and integration tests powered by `pytest`
+- **Testing:** E2E testing setup (`test_endpoints`) and integration tests powered by `pytest`.
 
 ## 🛠️ Prerequisites
 
