@@ -74,9 +74,9 @@ ssh root@$DOMAIN "bash -s '$GITHUB_DEPLOY_PAT'" << 'EOF'
     setup_user "$APP_USER" "$APP_USER_SSH_PUBLIC_KEY" false
 
     # --- Application Repository Setup ---
-    REPO_DIR="/home/$APP_USER/second-hand-swag"
+    REPO_DIR="/home/$APP_USER/your-app-name"
     sudo -u "$APP_USER" -H bash -c "rm -r $REPO_DIR"
-    sudo -u "$APP_USER" -H bash -c "git clone https://${GITHUB_DEPLOY_PAT}@github.com/bartektrybala/second-hand-swag '$REPO_DIR'"
+    sudo -u "$APP_USER" -H bash -c "git clone https://${GITHUB_DEPLOY_PAT}@github.com/bartektrybala/your-app-name '$REPO_DIR'"
     echo "--- [Remote] Repository cloned successfully. ---"
 
     echo "--- [Remote] Running Certbot for initial SSL certificate generation... ---"

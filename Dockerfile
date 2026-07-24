@@ -1,9 +1,15 @@
 ARG PYTHON_VERSION=3.13
-FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-trixie-slim
+FROM ghcr.io/astral-sh/uv:python${PYTHON_VERSION}-trixie-slim AS builder
 
-RUN apt-get update && apt-get install -y libpq-dev gcc
+RUN apt update && apt install -y libpq-dev gcc
 
-# Create a non-privileged user that the app will run under.
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM python:${PYTHON_VERSION}-slim-trixie AS runner
+RUN apt update && apt install -y libpq5
+
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -15,9 +21,8 @@ RUN adduser \
 USER appuser
 WORKDIR /app
 
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+COPY --from=builder --chown=appuser:appuser /app/.venv /app/.venv
+COPY --chown=appuser:appuser src /app/src
 
-COPY src /app/src
-
-CMD ["uv", "run", "uvicorn", "src.main:app", "--port", "8000", "--host", "0.0.0.0"]
+ENV PATH="/app/.venv/bin:$PATH"
+CMD ["uvicorn", "src.main:app", "--port", "8000", "--host", "0.0.0.0"]

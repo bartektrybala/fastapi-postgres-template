@@ -35,7 +35,7 @@ definitions: {
 					condition: "service_healthy"
 				}
 			}
-			command:  "sh -c 'cd src/infrastructure/sqlalchemy && uv run alembic upgrade head'"
+			command:  "sh -c 'cd src/infrastructure/sqlalchemy && alembic upgrade head'"
 			env_file: string
 			networks: [consts.POSTGRES_DB_NETWORK_NAME]
 			volumes: [consts.POSTGRES_SERVICE_VOLUME_MOUNT]

@@ -13,20 +13,20 @@ services:
       - db_network
     volumes:
       - dbdata:/var/lib/postgresql/data
-  shs-migrations:
+  migrations:
     build:
       context: ../
       dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c 'cd src/infrastructure/sqlalchemy && uv run alembic upgrade head'
+    command: sh -c 'cd src/infrastructure/sqlalchemy && alembic upgrade head'
     env_file: ../src/env/.env.production
     networks:
       - db_network
     volumes:
       - dbdata:/var/lib/postgresql/data
-  shs-backend:
+  backend:
     build:
       context: ../
       dockerfile: Dockerfile
@@ -35,13 +35,13 @@ services:
       - db_network
       - backend_network
     healthcheck:
-      test: python -c 'import urllib.request; urllib.request.urlopen("http://shs-backend:8000/api/health")'
+      test: python -c 'import urllib.request; urllib.request.urlopen("http://backend:8000/api/health")'
       interval: 3s
       timeout: 5s
       retries: 10
       start_period: 2s
     depends_on:
-      shs-migrations:
+      migrations:
         condition: service_completed_successfully
   api-gateway:
     image: nginx:latest
@@ -55,7 +55,7 @@ services:
       - ../api_gateway/nginx_production.conf:/etc/nginx/nginx.conf:ro
       - certbot_volume:/etc/letsencrypt
     depends_on:
-      shs-backend:
+      backend:
         condition: service_healthy
   certbot:
     image: certbot/certbot

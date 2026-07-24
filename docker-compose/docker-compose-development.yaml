@@ -15,14 +15,14 @@ services:
       - db_network
     volumes:
       - dbdata:/var/lib/postgresql/data
-  shs-migrations:
+  migrations:
     build:
       context: ../
       dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c 'cd src/infrastructure/sqlalchemy && uv run alembic upgrade head'
+    command: sh -c 'cd src/infrastructure/sqlalchemy && alembic upgrade head'
     env_file: ../src/env/.env.development
     networks:
       - db_network
