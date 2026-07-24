@@ -9,7 +9,7 @@ makemigrations:
 migrate:
     uv run alembic upgrade head
 
-run:
+run: db migrate
     uv run fastapi run --host 0.0.0.0 --port 80 src/main.py
 
 up env="docker":
@@ -39,7 +39,7 @@ export-cue:
 test:
     uv run pytest
 
-integration_test: (down "e2e") (up "e2e")
+integration_test: export-cue (down "e2e") (up "e2e")
     uv run pytest -m integration
 
 clear_cache:
