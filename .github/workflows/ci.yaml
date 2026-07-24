@@ -1,0 +1,36 @@
+name: Docker Services
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: stack-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  images:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: extractions/setup-just@v3
+      - uses: cue-lang/setup-cue@v1.0.1
+
+      - name: Setup env files
+        run: just export-cue
+
+      - name: Run docker compose
+        run: docker compose --file docker-compose/docker-compose-docker.yaml up --quiet-pull --wait
+
+      - name: Display Docker logs on failure
+        if: always()
+        run: docker compose --file docker-compose/docker-compose-docker.yaml logs
+
+      - name: Check backend health
+        run: curl -f http://localhost/api/health

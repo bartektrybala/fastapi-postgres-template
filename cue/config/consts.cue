@@ -14,7 +14,7 @@ ENV_FILE_E2E:         "\(ENV_DIR).env.\(E2E)"
 ENV_FILE_PRODUCTION:  "\(ENV_DIR).env.\(PRODUCTION)"
 
 POSTGRES_DB_SERVICE_NAME: "db"
-POSTGRES_LOCAL_DB:        "shs-local"
+POSTGRES_LOCAL_DB:        "local"
 POSTGRES_E2E_DB:          "e2e_testing"
 POSTGRES_TEST_DB:         "testing"
 POSTGRES_USER:            "postgres"
@@ -25,8 +25,8 @@ POSTGRES_DBDATA_VOLUME_NAME:   "dbdata"
 POSTGRES_SERVICE_VOLUME_MOUNT: "\(POSTGRES_DBDATA_VOLUME_NAME):/var/lib/postgresql/data"
 POSTGRES_DB_NETWORK_NAME:      "db_network"
 
-MIGRATIONS_SERVICE_NAME: "shs-migrations"
-BACKEND_SERVICE_NAME:    "shs-backend"
+MIGRATIONS_SERVICE_NAME: "migrations"
+BACKEND_SERVICE_NAME:    "backend"
 BACKEND_SERVICE_PORT:    8000
 BACKEND_NETWORK_NAME:    "backend_network"
 
