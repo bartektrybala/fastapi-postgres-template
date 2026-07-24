@@ -10,14 +10,7 @@ RUN uv sync --frozen --no-dev --no-install-project
 FROM python:${PYTHON_VERSION}-slim-trixie AS runner
 RUN apt update && apt install -y libpq5
 
-ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --shell "/sbin/nologin" \
-    --uid "${UID}" \
-    appuser
-
+RUN adduser --disabled-password --shell "/sbin/nologin" appuser
 USER appuser
 WORKDIR /app
 
