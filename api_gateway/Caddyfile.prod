@@ -1,0 +1,5 @@
+your-domain.pl {
+    handle {
+        reverse_proxy backend:8000
+    }
+}

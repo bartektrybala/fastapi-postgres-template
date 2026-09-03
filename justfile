@@ -24,14 +24,14 @@ export-cue:
     cue export -f --out text --outfile src/env/.env.docker src/env/env-docker.cue
     cue export -f --out text --outfile src/env/.env.development src/env/env-development.cue
     cue export -f --out text --outfile src/env/.env.e2e src/env/env-e2e.cue
-    cue export -f --out text --outfile api_gateway/nginx.conf api_gateway/nginx.cue
+    cue export -f --out text --outfile api_gateway/Caddyfile.dev api_gateway/Caddyfile.dev.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-docker.yaml docker-compose/docker-compose-docker.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-development.yaml docker-compose/docker-compose-development.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-e2e.yaml docker-compose/docker-compose-e2e.cue
 
     # PRODUCTION
     cue export -f --out text --outfile src/env/.env.production src/env/env-production.cue
-    cue export -f --out text --outfile api_gateway/nginx_production.conf api_gateway/nginx_production.cue
+    cue export -f --out text --outfile api_gateway/Caddyfile.prod api_gateway/Caddyfile.prod.cue
     cue export -f --out yaml --outfile docker-compose/docker-compose-production.yaml docker-compose/docker-compose-production.cue
 
 # ## DEV SCRIPTS ###
@@ -50,4 +50,4 @@ clear_cache:
     rm -rf .ruff_cache;
 
 pre-commit hook="":
-    uv run pre-commit run {{ hook }} --all-files --show-diff-on-failure
+    prek run {{ hook }} --all-files --show-diff-on-failure

@@ -57,34 +57,30 @@ definitions: {
 			}
 		}
 		"\(consts.API_GATEWAY_SERVICE_NAME)": {
-			image:   "nginx:latest"
+			image:   "caddy:2-alpine"
 			restart: "unless-stopped"
 			ports: [
 				"\(consts.API_GATEWAY_HTTP_PORT):\(consts.API_GATEWAY_HTTP_PORT)",
 				"\(consts.API_GATEWAY_HTTPS_PORT):\(consts.API_GATEWAY_HTTPS_PORT)",
 			]
 			networks: [consts.BACKEND_NETWORK_NAME]
-			volumes: [...string]
+			volumes: [
+				consts.CADDY_DATA_VOLUME_MOUNT,
+				consts.CADDY_CONFIG_VOLUME_MOUNT,
+				...string,
+			]
 			depends_on: {
 				"\(consts.BACKEND_SERVICE_NAME)": {
 					condition: "service_healthy"
 				}
 			}
 		}
-		"\(consts.CERTBOT_SERVICE_NAME)": {
-			image:          "certbot/certbot"
-			container_name: "certbot"
-			profiles: ["certbot"]
-			restart: "no"
-			ports: ["80:80"]
-			volumes: [consts.CERTBOT_VOLUME_MOUNT]
-			command: "certonly --standalone --email bartektrybalaa@gmail.com --agree-tos --preferred-challenges http -d \(consts.DOMAIN_DNS)"
-		}
 	}
 
 	volumes: {
 		"\(consts.POSTGRES_DBDATA_VOLUME_NAME)": driver: "local"
-		"\(consts.CERTBOT_VOLUME_NAME)": driver:         "local"
+		"\(consts.CADDY_DATA_VOLUME)": driver:           "local"
+		"\(consts.CADDY_CONFIG_VOLUME)": driver:         "local"
 	}
 
 	networks: {

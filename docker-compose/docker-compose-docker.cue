@@ -1,6 +1,7 @@
 package main
 
 import (
+	"list"
 	compose "your.module/cue/docker:compose_generic"
 	consts "your.module/cue/config:consts"
 )
@@ -16,17 +17,12 @@ services: {
 		env_file: consts.ENV_FILE_DOCKER
 	}
 	"\(consts.API_GATEWAY_SERVICE_NAME)": compose.definitions.services[consts.API_GATEWAY_SERVICE_NAME] & {
-		volumes: [
-			"../api_gateway/nginx.conf:\(consts.NGINX_CONF_DESTINATION)",
-		]
+		volumes: list.Concat([
+			compose.definitions.services[consts.API_GATEWAY_SERVICE_NAME].volumes,
+			["../api_gateway/Caddyfile.dev:\(consts.CADDY_CONF_DESTINATION)"],
+		])
 	}
 }
 
-volumes: {
-	"\(consts.POSTGRES_DBDATA_VOLUME_NAME)": compose.definitions.volumes.dbdata
-}
-
-networks: {
-	"\(consts.POSTGRES_DB_NETWORK_NAME)": compose.definitions.networks.db_network
-	"\(consts.BACKEND_NETWORK_NAME)":     compose.definitions.networks.backend_network
-}
+volumes:  compose.definitions.volumes
+networks: compose.definitions.networks

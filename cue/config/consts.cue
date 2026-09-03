@@ -30,16 +30,16 @@ BACKEND_SERVICE_NAME:    "backend"
 BACKEND_SERVICE_PORT:    8000
 BACKEND_NETWORK_NAME:    "backend_network"
 
-API_GATEWAY_SERVICE_NAME: "api-gateway"
-API_GATEWAY_HTTP_PORT:    80
-API_GATEWAY_HTTPS_PORT:   443
-NGINX_CONF_DESTINATION:   "/etc/nginx/nginx.conf:ro"
+API_GATEWAY_SERVICE_NAME:  "caddy"
+API_GATEWAY_HTTP_PORT:     80
+API_GATEWAY_HTTPS_PORT:    443
+CADDY_CONF_DESTINATION:    "/etc/caddy/Caddyfile:ro"
+CADDY_DATA_VOLUME:         "caddy_data"
+CADDY_CONFIG_VOLUME:       "caddy_config"
+CADDY_DATA_VOLUME_MOUNT:   "\(CADDY_DATA_VOLUME):/data"
+CADDY_CONFIG_VOLUME_MOUNT: "\(CADDY_CONFIG_VOLUME):/config"
 
 DOMAIN_DNS: "your-domain.pl"
 SENTRY_DSN: "https://your-sentry-dns.ingest.de.sentry.io/your-sentry-dns"
-
-CERTBOT_SERVICE_NAME: "certbot"
-CERTBOT_VOLUME_NAME:  "certbot_volume"
-CERTBOT_VOLUME_MOUNT: "\(CERTBOT_VOLUME_NAME):/etc/letsencrypt"
 
 JWT_SECRET_KEY: "tmp-super-super-secret-value-secret-value-secret-value-value-secret-value"

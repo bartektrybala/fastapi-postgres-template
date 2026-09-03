@@ -43,8 +43,8 @@ services:
     depends_on:
       migrations:
         condition: service_completed_successfully
-  api-gateway:
-    image: nginx:latest
+  caddy:
+    image: caddy:2-alpine
     restart: unless-stopped
     ports:
       - "80:80"
@@ -52,26 +52,18 @@ services:
     networks:
       - backend_network
     volumes:
-      - ../api_gateway/nginx_production.conf:/etc/nginx/nginx.conf:ro
-      - certbot_volume:/etc/letsencrypt
+      - caddy_data:/data
+      - caddy_config:/config
+      - ../api_gateway/Caddyfile.prod:/etc/caddy/Caddyfile:ro
     depends_on:
       backend:
         condition: service_healthy
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    profiles:
-      - certbot
-    restart: "no"
-    ports:
-      - "80:80"
-    volumes:
-      - certbot_volume:/etc/letsencrypt
-    command: certonly --standalone --email bartektrybalaa@gmail.com --agree-tos --preferred-challenges http -d your-domain.pl
 volumes:
   dbdata:
     driver: local
-  certbot_volume:
+  caddy_data:
+    driver: local
+  caddy_config:
     driver: local
 networks:
   db_network:

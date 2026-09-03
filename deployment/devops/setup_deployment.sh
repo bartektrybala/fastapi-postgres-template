@@ -79,14 +79,6 @@ ssh root@$DOMAIN "bash -s '$GITHUB_DEPLOY_PAT'" << 'EOF'
     sudo -u "$APP_USER" -H bash -c "git clone https://${GITHUB_DEPLOY_PAT}@github.com/bartektrybala/your-app-name '$REPO_DIR'"
     echo "--- [Remote] Repository cloned successfully. ---"
 
-    echo "--- [Remote] Running Certbot for initial SSL certificate generation... ---"
-    sudo -u "$APP_USER" -H bash -c "cd '$REPO_DIR' && docker compose --file docker-compose/docker-compose-production.yaml up --remove-orphans certbot"
-
-    echo "--- [Remote] Setting up Certbot renewal cron job... ---"
-    SOURCE_CRON_FILE="$REPO_DIR/deployment/devops/certbot-renew.cron.d"
-    DEST_CRON_FILE="/etc/cron.d/certbot-renew"
-    cp "$SOURCE_CRON_FILE" "$DEST_CRON_FILE" && chmod 0644 "$DEST_CRON_FILE"
-
 EOF
 
 echo "--- Script finished. ---"
