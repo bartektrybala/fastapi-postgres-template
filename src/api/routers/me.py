@@ -3,8 +3,8 @@ import typing as t
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
+from src.api.current_user import get_current_user
 from src.domain import aliases
-from src.domain.auth.current_user import get_current_user
 from src.domain.models import User
 
 router = APIRouter()

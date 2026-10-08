@@ -1,3 +1,4 @@
+from src.api.current_user import get_current_user
 import typing as t
 import uuid
 
@@ -7,7 +8,6 @@ from fastapi.testclient import TestClient
 from pydantic import BaseModel
 
 from src.containers import Container
-from src.domain.auth.current_user import get_current_user
 from src.domain.auth.interface import AccesTokenData
 from src.domain.models import User
 from src.main import app

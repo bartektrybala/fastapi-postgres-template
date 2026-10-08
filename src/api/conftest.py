@@ -3,8 +3,8 @@ import typing as t
 import pytest
 from fastapi.testclient import TestClient
 
+from src.api.current_user import get_current_user
 from src.domain import models
-from src.domain.auth.current_user import get_current_user
 from src.main import app
 from src.tests.factories import UserFactory
 
