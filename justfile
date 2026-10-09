@@ -9,6 +9,10 @@ makemigrations:
 migrate:
     uv run alembic upgrade head
 
+[working-directory('src/infrastructure/sqlalchemy')]
+check_migrations: migrate
+    uv run alembic check
+
 run: db migrate
     uv run fastapi run --host 0.0.0.0 --port 80 src/main.py
 

@@ -1,0 +1,44 @@
+name: backend
+
+on:
+  push:
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - uses: cue-lang/setup-cue@v1.0.1
+        with:
+          version: v0.16.0
+      - uses: extractions/setup-just@v4
+        with:
+          just-version: 1.51.0
+
+      - name: Run prek
+        uses: j178/prek-action@v2
+        with:
+          extra-args: --all-files
+
+      - uses: docker/setup-compose-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: docker-${{ github.sha }}
+          restore-keys: docker-
+      - name: Run db
+        run: just db
+
+      - name: Check migrations
+        run: just check_migrations
+      - name: Test
+        run: just test
