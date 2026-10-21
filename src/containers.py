@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from src.domain.auth.jwt_service import JWTTokenService
 from src.domain.auth.request_user_service import RequestUserService
 from src.infrastructure.password_service import PasswordService
-from src.infrastructure.sqlalchemy.connection import create_sa_engine, get_db_session
+from src.infrastructure.sqlalchemy.connection import create_sa_engine
 from src.infrastructure.sqlalchemy.tables import map_tables
 from src.infrastructure.user_repository import UserRepository
 
@@ -17,11 +17,11 @@ from src.infrastructure.user_repository import UserRepository
 class Container(c.DeclarativeContainer):
     database_engine = p.Resource(create_sa_engine)
     map_tables = p.Factory(map_tables)
-    session: p.Provider[Session] = p.Resource(get_db_session, engine=database_engine)
+    session = p.ContextLocalResource(Session, engine=database_engine)
 
-    password_service = p.Factory(PasswordService)
-    jwt_service = p.Factory(JWTTokenService)
-    user_repository = p.ThreadSafeSingleton(
+    password_service = p.Singleton(PasswordService)
+    jwt_service = p.Singleton(JWTTokenService)
+    user_repository = p.Factory(
         UserRepository, session=session, password_service=password_service
     )
 
@@ -51,3 +51,6 @@ def get_atomic_container(
     except Exception:
         container.session().rollback()
         raise
+    finally:
+        # NOTE: close session per request
+        container.session.shutdown()
